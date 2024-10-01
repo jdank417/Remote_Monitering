@@ -3,56 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Run PowerShell Script</title>
+    <title>System Monitoring Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        h1 {
-            color: #333;
-        }
-        form {
-            margin-bottom: 20px;
-        }
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-        pre {
-            background-color: #f4f4f4;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            white-space: pre-wrap; /* Wrap long lines */
-            word-wrap: break-word; /* Break long words */
-        }
+        body { padding-top: 20px; }
+        .card { margin-bottom: 20px; }
     </style>
 </head>
 <body>
-    <h1>Run PowerShell Script</h1>
-    <form id="scriptForm">
-        <button type="submit">Run Script</button>
-    </form>
-    <pre id="output"></pre>
-
-    <script>
-        document.getElementById('scriptForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent the form from submitting the traditional way
-
-            // Use GET method to match the Flask route
-            fetch('/run_script', {
-                method: 'GET'
-            })
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('output').textContent = data;
-            })
-            .catch(error => {
-                document.getElementById('output').textContent = 'Error: ' + error;
-            });
-        });
-    </script>
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>System Monitoring Dashboard</h1>
+            <a href="{{ url_for('refresh') }}" class="btn btn-primary">Refresh Data</a>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        CPU Usage
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">{{ data.CPU }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        Memory Usage
+                    </div>
+                    <div class="card-body">
+                        <pre class="card-text">{{ data.Memory }}</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        Disk Usage
+                    </div>
+                    <div class="card-body">
+                        <pre class="card-text">{{ data.Disk }}</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        IP Address
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">{{ data.IPAddress }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        Timestamp
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">{{ data.Timestamp }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
