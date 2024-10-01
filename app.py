@@ -43,4 +43,5 @@ def refresh():
     return "Error refreshing data", 500
 
 if __name__ == '__main__':
+    run_powershell_script()
     app.run(debug=True)
