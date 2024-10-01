@@ -16,6 +16,7 @@ Add-Type -AssemblyName System.Windows.Forms
 # Write the timestamp and IP address to the file
 "Results for $ipAddress at $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')" | Out-File -Append -FilePath $resultsFile
 
+
 # Press enter to show results 
 [System.Windows.Forms.SendKeys]::SendWait("{ENTER}")
 
