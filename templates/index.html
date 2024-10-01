@@ -7,8 +7,26 @@
 </head>
 <body>
     <h1>Run PowerShell Script</h1>
-    <form action="/run_script" method="post">
+    <form id="scriptForm">
         <button type="submit">Run Script</button>
     </form>
+    <pre id="output"></pre>
+
+    <script>
+        document.getElementById('scriptForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form from submitting the traditional way
+
+            fetch('/run_script', {
+                method: 'POST'
+            })
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('output').textContent = data;
+            })
+            .catch(error => {
+                document.getElementById('output').textContent = 'Error: ' + error;
+            });
+        });
+    </script>
 </body>
 </html>

@@ -4,8 +4,8 @@ $user = "jason"
 $password = "W!t2024"
 
 # Define the file path to save the results on the desktop
-$desktopPath = [System.Environment]::GetFolderPath("Desktop")
-$resultsFile = Join-Path $desktopPath "RemoteSystemInfo.txt"
+#$desktopPath = [System.Environment]::GetFolderPath("Desktop")
+$resultsFile = Join-Path $PSScriptRoot "RemoteSystemInfo.txt"
 
 # Load the required assembly for keystroke entry
 Add-Type -AssemblyName System.Windows.Forms

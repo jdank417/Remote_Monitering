@@ -12,11 +12,13 @@ def index():
 def run_script():
     try:
         script_path = os.path.join(os.path.dirname(__file__), 'remote_moniter.ps1')
+        output_path = os.path.join(os.path.dirname(__file__), 'RemoteSystemInfo.txt')
         print(script_path)
         
         if not os.path.exists(script_path):
             return f"Script file does not exist: {script_path}"
         
+
         # Command to run your PowerShell script
         result = subprocess.run(
             ["powershell", "-ExecutionPolicy", "Bypass", "-File", script_path],
@@ -24,8 +26,9 @@ def run_script():
         )
         
         # Read the contents of RemoteSystemInfo.txt
-        with open('RemoteSystemInfo.txt', 'r') as file:
+        with open(output_path, 'r') as file:
             file_contents = file.read()
+        
         
         # Return the contents of the file
         return file_contents
