@@ -7,7 +7,7 @@ import time
 app = Flask(__name__)
 
 JSON_FILE_PATH = "C:\\Users\\Jason Dank\\Remote_Monitering\\RemoteSystemInfo.json"
-PS_SCRIPT_PATH = "C:\\Users\\Jason Dank\\Remote_Monitering\\remote_json.ps1"
+PS_SCRIPT_PATH = "C:\\Users\\Jason Dank\\Remote_Monitering\\remote_monitor_json.ps1"
 
 def read_json_file():
     if os.path.exists(JSON_FILE_PATH):
