@@ -1,41 +1,49 @@
-# Remote System Information Script
+# Remote System Monitoring
+This repository provides a solution for remotely monitoring system information using a combination of Python, Flask, and PowerShell. The project includes a Flask web application that displays real-time system metrics, which are gathered by executing a PowerShell script that connects to a remote machine.
 
-This PowerShell script connects to a remote Linux machine using SSH to retrieve and log system information (CPU, memory, and disk usage) into a local file on the desktop. The results are appended to a text file named `RemoteSystemInfo.txt` with each execution.
+## Project Structure
+#### app.py: 
+The main Flask application that reads data from a JSON file and displays it on a web page. It also allows manual refreshing of the data by re-running the PowerShell script.
+#### remote_monitor_json.ps1: 
+A PowerShell script that connects to a remote machine using SSH and retrieves CPU, Memory, and Disk information, then stores it as a JSON file locally.
 
-## Features
-- Retrieves CPU usage using the `top` command.
-- Retrieves memory usage using the `free` command.
-- Retrieves disk usage using the `df` command.
-- Filters out unwanted messages from the SSH output.
-- Appends the results to a text file with a timestamp for each execution.
-- Automatically presses "Enter" after displaying each result to ensure script progression.
-
-## Requirements
-- PowerShell 5.0 or higher.
-- **plink** (part of PuTTY) must be installed and accessible from the command line.
-- Access to the remote Linux machine with valid SSH credentials.
-- Basic knowledge of PowerShell and Windows environment variables.
-
-## Setup Instructions
-1. Ensure that `plink.exe` is installed and accessible via the command line.
-   - You can download PuTTY from [here](https://www.putty.org/).
-   - Add `plink.exe` to your system's PATH.
-   
-2. Modify the script to include your remote machine's IP, username, and password. These are defined in the following variables at the start of the script:
-   ```PowerShell
-   $ipAddress = IP_OF_YOUR_SYSTEM
-   $user = USER_OF_YOUR_SYSTEM
-   $password = PASS_OF_YOUR_SYSTEM
-
-  ## Execution
-  1. This script will populate a text file called "RemoteSystemInfo.txt" on your desktop with the output.
+## Prerequisites
+Python 3.12
+Flask (pip install Flask)
+PowerShell with plink installed for SSH connectivity
+SSH access to the remote machine with valid credentials
+A remote machine running a Linux-based operating system (for commands like top, free, and df)
 
 
+
+## How It Works
+#### Data Gathering: 
+The PowerShell script (remote_monitor_json.ps1) connects to a remote Linux machine using SSH. It runs several commands to gather information about CPU, Memory, and Disk usage, and stores this data in a JSON file (RemoteSystemInfo.json).
+
+#### Data Display: 
+The Flask application (app.py) reads the JSON file and renders the data on a web page using an HTML template (index.html).
+
+#### Manual Refresh: 
+Users can trigger the PowerShell script manually through the Refresh button on the web page. This updates the JSON file and displays the latest information.
+
+## File Descriptions
+#### app.py:
+Contains the Flask web application that serves the system information.
+Provides a /refresh route to execute the PowerShell script and refresh the data.
+
+#### remote_monitor_json.ps1:
+Retrieves CPU, Memory, and Disk information from a remote Linux machine using SSH.
+Filters unwanted messages and writes the results to RemoteSystemInfo.json as a JSON object.
+
+#### RemoteSystemInfo.json:
+The JSON file where the system information is stored. It is generated and updated by the PowerShell script.
+
+#
 ## Interpreting CPU ussage
 
-1. Example output: %Cpu(s): 22.2 us, 11.1 sy, 0.0 ni, 66.7 id, 0.0 wa, 0.0 hi, 0.0 si, 0.0 st
+ - Example output: %Cpu(s): 22.2 us, 11.1 sy, 0.0 ni, 66.7 id, 0.0 wa, 0.0 hi, 0.0 si, 0.0 st
 
-2. this shows you the distribution of how your CPU's time is being used. Here’s a breakdown of each component:
+ - This shows you the distribution of how your CPU's time is being used. Here’s a breakdown of each component:
 
    **us (User space): 22.2%**
    This indicates that 22.2% of the CPU time is being used by user-space processes, such as applications or scripts that you run.
