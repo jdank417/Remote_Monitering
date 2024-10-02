@@ -1,9 +1,3 @@
-# Check if plink is installed
-if (-not (Get-Command plink -ErrorAction SilentlyContinue)) {
-    Write-Host "Error: 'plink' is not installed or not in the system PATH."
-    exit
-}
-
 # Load the required assemblies for Windows Forms
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
@@ -24,14 +18,14 @@ function Get-RemoteData {
         # Add the command directly to plink
         $result = plink -batch -ssh "$user@$ipAddress" -pw "$password" "$command"
 
-        # If the command is 'free -m', parse the output
+        # Parse output for memory
         if ($command -eq "free -m") {
             $lines = $result -split "`n"
             $memLine = $lines[1] -split '\s+', 0, 'Regex'
             $result = "Total: $($memLine[1]) MB, Used: $($memLine[2]) MB, Free: $($memLine[3]) MB"
         }
 
-        # If the command is 'df -h', parse the output
+        # Parse output for Disk
         if ($command -eq "df -h") {
             $lines = $result -split "`n"
             foreach ($line in $lines) {
@@ -64,7 +58,7 @@ Write-Host "Memory Info: $memoryInfo"
 $diskInfo = Get-RemoteData "df -h"
 Write-Host "Disk Info: $diskInfo"
 
-# Initialize a hashtable to store the system information
+# Create a hashtable to store the system information
 $systemInfo = @{
     IPAddress = $ipAddress
     Timestamp = Get-Date -Format 'yyyy-MM-dd HH:mm:ss'
@@ -124,7 +118,7 @@ $refreshButton.Add_Click({
     $systemInfo.CPU = $cpuInfo
     $systemInfo.Memory = $memoryInfo
     $systemInfo.Disk = $diskInfo
-    $systemInfo.Timestamp = Get-Date -Format 'yyyy-MM-dd HH:mm:ss'  # Update the timestamp
+    $systemInfo.Timestamp = Get-Date -Format 'yyyy-MM-dd HH:mm:ss'
     Write-Host "Updated System Info: $($systemInfo | Out-String)"
 
     # Update the labels on the form
@@ -142,4 +136,4 @@ $form.Controls.Add($panel)
 
 # Show the form and print to console for debugging
 Write-Host "Displaying the form..."
-$form.ShowDialog()  # This blocks the script until the form is closed
+$form.ShowDialog()
