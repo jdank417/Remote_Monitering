@@ -53,7 +53,7 @@ class SSHApp:
         # Configuration variables
         self.host = "128.103.125.144"
         self.username = "jason"
-        self.password = "Fluffy1y"
+        self.password = ""
         self.ssh_client = None
 
         # UI Elements
