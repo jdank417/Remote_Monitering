@@ -370,7 +370,7 @@ Modify the `edit_machines_file` method to use the appropriate command for openin
 
 ---
 
-## **License and Author**
+## **Author**
 
 * **Author:** Jason Dank  
 * **Creation Date:** January 27, 2025
