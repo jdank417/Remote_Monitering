@@ -381,5 +381,5 @@ Modify the `edit_machines_file` method to use the appropriate command for openin
 
 For issues, feature requests, or contributions, please contact:
 
-* **Email:** jason\_dank@harvarde.edu  
+* **Email:** jason\_dank@harvard.edu  
   
