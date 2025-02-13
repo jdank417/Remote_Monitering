@@ -451,11 +451,25 @@ class SSHApp(QMainWindow):
 
 
     def edit_machines_file(self):
-        """Open the machines.json file for editing."""
+        """Open the machines.json file for editing and refresh the machine list if changes were made."""
         try:
             os.startfile(MACHINES_FILE)  # Windows: open with the default associated program
         except Exception as e:
             QMessageBox.critical(self, "Error", f"Could not open file: {e}")
+            return
+
+
+        # Ask the user if they changed the machine list
+        response = QMessageBox.question(
+            self,
+            "Refresh Machine List",
+            "Did you change the machine list?",
+            QMessageBox.Yes | QMessageBox.No,
+            QMessageBox.No
+        )
+        if response == QMessageBox.Yes:
+            self.load_machines()
+            self.update_grid()
 
 
 def main():
